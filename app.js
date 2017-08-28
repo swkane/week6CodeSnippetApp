@@ -3,14 +3,14 @@ const app = express();
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
 const Snippet = require('./models/snippet');
-// const addSnippetController = require('./controllers/add-snippet');
+const addSnippetController = require('./controllers/add');
 // const editSnippetController = require('./controllers/edit-snippet');
 
 
 // Mongoose / Mongo Boiler Plate
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-const url = 'mongodb://localhost:27017/snippetdb';
+const url = 'mongodb://localhost:27017/newsnippetdb';
 mongoose.connect(url);
 const MongoClient = require('mongodb').MongoClient;
 
@@ -27,19 +27,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Controller Routes
-// app.use('/add', addSnippetController);
+app.use('/add', addSnippetController);
 // app.use('/edit', editSnippetController);
 
-// !!Only run this code once to set up the db
-// var snippet = new Snippet({title: "Test Snippet", body:"<tag>this is a test</tag>", language:"Samscript", tags:"sam"});
-// snippet.save()
-//   .then(function () {
-//     console.log("You added the test snippet!");
-//     db.snippets.insertOne(snippet);
-//   })
-//   .catch(function () {
-//     console.log("You failed to add test snippet");
-//   });
+
 
 app.get('/', function(req, res) {
   res.render('login');
@@ -56,6 +47,21 @@ app.get("/home", function(req ,res) {
       db.close();
   });
 });
+
+app.get('/add', function(req, res) {
+  res.render('add');
+});
+
+// !!Only run this code once to set up the db
+// var snippet = new Snippet({title: "Test Snippet", body:"<tag>this is a test</tag>", notes:"These are notes", language:"Samscript", tags:"sam"});
+// snippet.save()
+//   .then(function () {
+//     console.log("You added the test snippet!");
+//     db.snippets.insertOne(snippet);
+//   })
+//   .catch(function () {
+//     console.log("You failed to add test snippet");
+//   });
 
 app.listen(3000, function() {
   console.log("CodeSnippet Saver running on port: 3000");
