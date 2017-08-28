@@ -10,22 +10,6 @@
       <h3>Your Snippet Collection</h3>
     </header>
     <main>
-      <h5>Add a Snippet</h5>
-      <form class="add-snippet" action="/add" method="post">
-        <label for="title">Title: </label>
-        <input type="text" name="title" value=""><br><br>
-        <label for="body">Body: </label>
-        <textarea name="body" rows="8" cols="80"></textarea><br><br>
-        <label for="notes">Notes: </label>
-        <textarea name="notes" rows="8" cols="80" placeholder="Optional"></textarea><br><br>
-        <label for="language">Language: </label>
-        <input type="text" name="language" value=""><br><br>
-        <label for="tags">Tags: </label>
-        <input type="text" name="tags" value=""><br><br>
-        <button type="submit" name="submit">Add a Snippet</button>
-      </form>
-      <hr>
-      <h4>Your Collection of Snippets</h4>
       <section class="results">
         {{#snippets}}
         <div class="snippet">
