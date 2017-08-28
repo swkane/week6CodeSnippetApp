@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Your Snippet Collection</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h3>Your Snippet Collection</h3>
+    </header>
+    <main>
+      <h5>Add a Snippet</h5>
+      <form class="add-snippet" action="/add" method="post">
+        <label for="title">Title: </label>
+        <input type="text" name="title" value=""><br><br>
+        <label for="body">Body: </label>
+        <textarea name="body" rows="8" cols="80"></textarea><br><br>
+        <label for="notes">Notes: </label>
+        <textarea name="notes" rows="8" cols="80" placeholder="Optional"></textarea><br><br>
+        <label for="language">Language: </label>
+        <input type="text" name="language" value=""><br><br>
+        <label for="tags">Tags: </label>
+        <input type="text" name="tags" value=""><br><br>
+        <button type="submit" name="submit">Add a Snippet</button>
+      </form>
+      <hr>
+      <h4>Your Collection of Snippets</h4>
+      <section class="results">
+        {{#snippets}}
+        <div class="snippet">
+          <p>{{title}}</p>
+          <p>{{body}}</p>
+          <p>{{notes}}</p>
+          <p>{{language}}</p>
+          <p>{{tags}}</p>
+          <a href="/edit/{{name}}"><button type="button" name="edit">Edit</button></a>
+        </div>
+        {{/snippets}}
+        <!-- <div class="record">
+          <p>Album</p>
+          <p>Artist</p>
+          <p>Track 1, Track 2, Track 3</p>
+          <p>Year</p>
+          <p>Number of Tracks</p>
+          <button type="button" name="edit">Edit</button> <button type="button" name="delete">Delete</button>
+        </div>
+        <div class="record">
+          <p>Album</p>
+          <p>Artist</p>
+          <p>Track 1, Track 2, Track 3</p>
+          <p>Year</p>
+          <p>Number of Tracks</p>
+          <button type="button" name="edit">Edit</button> <button type="button" name="delete">Delete</button>
+        </div>
+        <div class="record">
+          <p>Album</p>
+          <p>Artist</p>
+          <p>Track 1, Track 2, Track 3</p>
+          <p>Year</p>
+          <p>Number of Tracks</p>
+          <button type="button" name="edit">Edit</button> <button type="button" name="delete">Delete</button>
+        </div> -->
+      </section>
+    </main>
+  </body>
+</html>

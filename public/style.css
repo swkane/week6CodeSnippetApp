@@ -1,0 +1,12 @@
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  /*align-content: space-between;*/
+  justify-content: space-between;
+}
+
+.snippet {
+  border: 1px solid black;
+  margin: 20px;
+  padding: 20px;
+}
