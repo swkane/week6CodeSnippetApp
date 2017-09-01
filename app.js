@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
 const Snippet = require('./models/snippet');
@@ -7,6 +6,13 @@ const User = require('./models/user');
 const bcrypt = require('bcrypt');
 const addSnippetController = require('./controllers/add-snippet');
 const session = require('express-session');
+const passport = require('passport'),
+      LocalStrategy = require('passport-local').Strategy,
+      flash = require('express-flash-messages');
+
+const app = express();
+
+
 // const editSnippetController = require('./controllers/edit-snippet');
 
 
@@ -36,15 +42,77 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+})
+
+//passport
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        User.authenticate(username, password, function(err, user) {
+            if (err) {
+                return done(err)
+            }
+            if (user) {
+                return done(null, user)
+            } else {
+                return done(null, false, {
+                    message: "There is no user with that username and password."
+                })
+            }
+        })
+    }));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+
 // Controller Routes
 app.use('/add', addSnippetController);
 // app.use('/edit', editSnippetController);
 
 
 
+// app.get('/', function(req, res) {
+//   res.render('login');
+// });
+
+// Passport Route
+
 app.get('/', function(req, res) {
-  res.render('login');
+    res.render("login", {
+        messages: res.locals.getMessages()
+    });
 });
+
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}))
+
+
+
+// Login Route
+
+app.post('/login', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+
+  })
+})
 
 // register route
 
@@ -71,6 +139,7 @@ app.post('/register/complete', function(req, res) {
     res.redirect('/');
   });
 });
+
 
 app.get("/home", function(req ,res) {
   MongoClient.connect(url , function(err, db) {
@@ -101,4 +170,5 @@ app.get('/add', function(req, res) {
 
 app.listen(3000, function() {
   console.log("CodeSnippet Saver running on port: 3000");
+  console.log(User);
 });
